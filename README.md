@@ -54,7 +54,7 @@ mencatat jarak yang mereka tempuh. Jika sampel acak menunjukkan rata-rata
 Apakah Anda setuju dengan klaim tersebut?
 
 karena nilai-P hitungan lebih kecil dari taraf keberartian α yang ditentukan, maka tolak H0 dengan P < 0,0001.
-
+maka tidak setuju
 - Poin B
 
 Jelaskan maksud dari output yang dihasilkan!
