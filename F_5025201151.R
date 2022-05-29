@@ -57,19 +57,48 @@ qt(p = 0.05, df = 2, lower.tail=FALSE)
 # Soal 4
 # 4a
 
-nova  <- read.table(url("https://rstatisticsandresearch.weebly.com/uploads/1/0/2/6/1026585/onewayanova.txt"))
-dim(nova)
-head(nova)
-attach(nova)
-nova$V1 <- as.factor(nova$V1)
-nova$V1 = factor(nova$V1,labels = c("Kucing Oren","Kucing Hitam","Kucing Putih","Kucing Oren"))
+dataoneway <- read.table("onewayanova.txt",h=T)
+attach(dataoneway)
+names(dataoneway)
 
-class(nova$V1)
+dataoneway$Group <- as.factor(dataoneway$Group)
+dataoneway$Group = factor(dataoneway$Group,labels = c("grup 1", "grup 2", "grup 3"))
 
-group1 <- subset(nova, V1=="Kucing Oren")
-group2 <- subset(nova, V1=="Kucing Hitam")
-group3 <- subset(nova, V1=="Kucing Putih")
+class(dataoneway$Group)
 
+Group1 <- subset(dataoneway, Group == "grup 1")
+Group2 <- subset(dataoneway, Group == "grup 2")
+Group3 <- subset(dataoneway, Group == "grup 3")
+
+qqnorm(Group1$Length)
+qqline(Group1$Length)
+
+qqnorm(Group2$Length)
+qqline(Group2$Length)
+
+qqnorm(Group3$Length)
+qqline(Group3$Length)
+
+# 4b
+bartlett.test(Length ~ Group, data = dataoneway)
+
+# 4c 
+model1 = lm(Length ~ Group, data = dataoneway)
+anova(model1)
+
+# Poin 4d 
+# Readme
+
+# Poin 4e
+
+TukeyHSD(aov(model1))
+
+# Poin 4f
+
+
+library(ggplot2)
+ggplot(dataoneway, aes(x = Group, y = Length)) + geom_boxplot(fill = "grey80", colour = "black") + 
+  scale_x_discrete() + xlab("Treatment Group") +  ylab("Length (cm)")
 
 # Soal 5
 # 5a
