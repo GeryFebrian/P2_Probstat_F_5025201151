@@ -22,12 +22,12 @@ Memasukkan data x yang merupakan sebelum aktivitas dan data y yang merupakan set
  
  carilah nilai t (p-value)
  ```r
- t.test(x, y, alternative = "greater", var.equal = FALSE)
+ t.test(x,y,paired = TRUE)
  ```
  Mencari nilai t(p-value) dengan t.test yang didapatkan hasil
 
- ![1b](https://user-images.githubusercontent.com/92217354/170860369-445d25cb-96b4-4e2b-a785-db29f3e52968.jpeg)
-
+ ![1b](https://user-images.githubusercontent.com/92217354/170868126-385f206a-4e93-4ad4-94e9-b995015d7065.png)
+ 
  - Poin C
 
 tentukanlah apakah terdapat pengaruh yang signifikan secara statistika
