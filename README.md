@@ -154,16 +154,108 @@ Mencari nilai kritikal menggunakan `qt` dengan nilai rataan p nya 0.05 dan df = 
  Perubahan tidak signifikan di mayoritas pengujian,pengujian paling signifikan dapat dilihat di nilai rataan X melalui Hitung Uji Statistik
 
  
- 
+ # Soal 4
+
+Seorang Peneliti sedang meneliti spesies dari kucing di ITS . Dalam penelitiannya
+ia mengumpulkan data tiga spesies kucing yaitu kucing oren, kucing hitam dan
+kucing putih dengan panjangnya masing-masing.
+Jika
+
+- Poin A
+
+dilakukan grouping agar group 1 2 3 diubah namanya menjadi jenis jenis kucing
+```r
+nova  <- read.table(url("https://rstatisticsandresearch.weebly.com/uploads/1/0/2/6/1026585/onewayanova.txt"))
+dim(nova)
+head(nova)
+attach(nova)
+nova$V1 <- as.factor(nova$V1)
+nova$V1 = factor(nova$V1,labels = c("Kucing Oren","Kucing Hitam","Kucing Putih","Kucing Oren"))
+
+class(nova$V1)
+
+group1 <- subset(nova, V1=="Kucing Oren")
+group2 <- subset(nova, V1=="Kucing Hitam")
+group3 <- subset(nova, V1=="Kucing Putih")
+
+```
+
+# Soal 5
+
+Data yang digunakan merupakan hasil eksperimen yang dilakukan untuk
+mengetahui pengaruh suhu operasi (100˚C, 125˚C dan 150˚C) dan tiga jenis kaca
+pelat muka (A, B dan C) pada keluaran cahaya tabung osiloskop. Percobaan
+dilakukan sebanyak 27 kali dan didapat data sebagai berikut: Data Hasil
+Eksperimen. Dengan data tersebut
+
+- Poin A
+Sistem akan membaca file dari GTL.csv lalu divisualkan dengan simple plot
+
+```r
+GTL <- read_csv("GTL.csv")
+head(GTL)
+
+str(GTL)
+
+qplot(x = Temp, y = Light, geom = "point", data = GTL) +
+  facet_grid(.~Glass, labeller = label_both)
+
+```
+
+![5a](https://user-images.githubusercontent.com/92217354/170867059-9f097d95-1b86-431e-aa3b-89f81ae2f6f3.jpeg)
 
 
+- Poin B
+Melakukan Uji ANOVA dua arah dengan cara disimpan dulu GTL nya sebagai as.factor
 
- 
- 
+```r
+GTL$Glass <- as.factor(GTL$Glass)
+GTL$Temp_Factor <- as.factor(GTL$Temp)
+str(GTL)
+
+```
+![5b1](https://user-images.githubusercontent.com/92217354/170867282-efaf66b8-fb88-4e6c-821a-fbc4602e82db.jpeg)
+
+Uji ANOVA dilakukan
+
+```r
+anova <- aov(Light ~ Glass*Temp_Factor, data = GTL)
+summary(anova)
+
+```
+
+![5b2](https://user-images.githubusercontent.com/92217354/170867284-4009f7b3-fa90-43c4-8463-ec26f9ca2be2.jpeg)
+
+- Poin C
+Menampilkan mean dan standar deviasi keluaran cahaya dengan cara grouping per category
+
+```r
+data_summary <- group_by(GTL, Glass, Temp) %>%
+  summarise(mean=mean(Light), sd=sd(Light)) %>%
+  arrange(desc(mean))
+print(data_summary)
+
+```
+
+![5c](https://user-images.githubusercontent.com/92217354/170867481-7b5b6275-b3a4-4e06-ac93-d76197bca989.jpeg)
+
+- Poin D
+Melakukan uji tukey dari pengujian ANOVA yang telah dilakukan di poin C
+
+```r
+tukey <- TukeyHSD(anova)
+print(tukey)
+
+```
+![5d](https://user-images.githubusercontent.com/92217354/170867544-a31afe1c-7150-4ba0-a98c-1a954771398f.jpeg)
 
 
+- Poin E
+Melakukan uji tukey dengan compact letter display dari pengujian ANOVA yang telah dilakukan di poin C
 
+```r
+tukey.cld <- multcompLetters4(anova, tukey)
+print(tukey.cld)
 
- 
- 
-
+```
+![5e](https://user-images.githubusercontent.com/92217354/170867662-f9c84ec6-09c5-4a2e-afe6-956bd682cbf0.jpeg)
