@@ -163,22 +163,88 @@ Jika
 
 - Poin A
 
-dilakukan grouping agar group 1 2 3 diubah namanya menjadi jenis jenis kucing
+dilakukan grouping agar group 1 2 3 diubah namanya menjadi jenis jenis kucing lalu divisualisasikan dengan qqnorm dan qqline
 ```r
-nova  <- read.table(url("https://rstatisticsandresearch.weebly.com/uploads/1/0/2/6/1026585/onewayanova.txt"))
-dim(nova)
-head(nova)
-attach(nova)
-nova$V1 <- as.factor(nova$V1)
-nova$V1 = factor(nova$V1,labels = c("Kucing Oren","Kucing Hitam","Kucing Putih","Kucing Oren"))
+dataoneway <- read.table("onewayanova.txt",h=T)
+attach(dataoneway)
+names(dataoneway)
 
-class(nova$V1)
+dataoneway$Group <- as.factor(dataoneway$Group)
+dataoneway$Group = factor(dataoneway$Group,labels = c("grup 1", "grup 2", "grup 3"))
 
-group1 <- subset(nova, V1=="Kucing Oren")
-group2 <- subset(nova, V1=="Kucing Hitam")
-group3 <- subset(nova, V1=="Kucing Putih")
+class(dataoneway$Group)
+
+Group1 <- subset(dataoneway, Group == "grup 1")
+Group2 <- subset(dataoneway, Group == "grup 2")
+Group3 <- subset(dataoneway, Group == "grup 3")
+
+qqnorm(Group1$Length)
+qqline(Group1$Length)
+
+qqnorm(Group2$Length)
+qqline(Group2$Length)
+
+qqnorm(Group3$Length)
+qqline(Group3$Length)
 
 ```
+![4a](https://user-images.githubusercontent.com/92217354/170875425-3cfd6436-22e0-43d5-9bc0-e9c73eaaa06d.jpg)
+
+- Poin B
+
+Mencari nilai dari Homogeneity of variance nya dengan 
+
+```r
+bartlett.test(Length ~ Group, data = dataoneway)
+
+```
+yang didapat p-value nya sebesar `0.8054` dan bartlett nya sebesar `0.43292`
+
+![4b](https://user-images.githubusercontent.com/92217354/170875534-512458ce-a0fb-43f7-9f40-e4a6cc0191d3.jpg)
+
+- Poin C
+
+Untuk Uji UNOVA kita dapat menggunakan command 
+
+```r
+model1 = lm(Length ~ Group, data = dataoneway)
+anova(model1)
+
+```
+dan didapatkan hasil sebagai berikut
+
+![4c](https://user-images.githubusercontent.com/92217354/170875712-4520ddf7-0aef-4f88-9b9a-8828df2ca07b.jpg)
+
+
+- Poin D
+
+Dari Poin C didapatkan P-Value nya sebesar `0.8054` maka kesimpulan yang dapat diambil adalah h0 nya ditolak
+
+
+- Poin E
+
+kita dapat menggunakan tukey untuk mencari nilai P apakah berubah atau tidak
+
+```r
+TukeyHSD(aov(model1))
+
+```
+dan dengan menggunakan tukey didapatkan hasil sebagai berikut
+
+![4e](https://user-images.githubusercontent.com/92217354/170875925-633500f4-af97-4ae1-aa05-4656cec0b293.jpg)
+
+- Poin F
+
+kita diminta untuk menvisualisasikannya dengan ggplot2
+```r
+library(ggplot2)
+ggplot(dataoneway, aes(x = Group, y = Length)) + geom_boxplot(fill = "grey80", colour = "black") + 
+  scale_x_discrete() + xlab("Treatment Group") +  ylab("Length (cm)")
+
+```
+
+![4f](https://user-images.githubusercontent.com/92217354/170876026-bc2527b7-3428-4dbb-ab6b-6c754cf5c4f9.jpg)
+
 
 # Soal 5
 
