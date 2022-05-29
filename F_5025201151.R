@@ -46,7 +46,7 @@ library(mosaic)
 plotDist(dist='t', df=2, col="black")
 
 # 3d
-qchisq(p = 0.05, df = 2, lower.tail=FALSE)
+qt(p = 0.05, df = 2, lower.tail=FALSE)
 
 # 3e
 # Penjelasan di readme
