@@ -163,7 +163,7 @@ Jika
 
 - Poin A
 
-dilakukan grouping agar group 1 2 3 diubah namanya menjadi jenis jenis kucing lalu divisualisasikan dengan qqnorm dan qqline
+dilakukan grouping agar group 1 2 3  lalu divisualisasikan dengan qqnorm dan qqline
 ```r
 dataoneway <- read.table("onewayanova.txt",h=T)
 attach(dataoneway)
