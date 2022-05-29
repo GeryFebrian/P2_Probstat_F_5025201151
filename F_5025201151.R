@@ -10,7 +10,7 @@ y <- c(100, 95, 70, 90, 90, 90, 89, 90, 100)
 sd(x-y)
 
 # 1b
-t.test(x, y, alternative = "greater", var.equal = FALSE)
+t.test(x,y,paired = TRUE)
 
 # 1c
 
